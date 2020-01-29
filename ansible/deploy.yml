@@ -1,0 +1,29 @@
+---
+- hosts: web
+  remote_user: root
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+  tasks:
+    - name: run ssdpapi
+      docker_compose: 
+        project_name: ssdp
+        definition:
+          version: "3.7"
+          services:
+            api:
+              image: kevinmanssat.fr:5000/ssdpapi
+              environment:
+                POSTGRES_DB: ssdp
+                POSTGRES_USER: ssdpuser
+                POSTGRES_PASSWORD: ssdpwd
+                DATABASE_HOST: database
+                DATABASE_PORT: 5432
+                DATABASE_NAME: ssdp
+                DATABASE_USERNAME: ssdpuser
+                DATABASE_PASSWORD: ssdpwd
+              ports:
+                - 1234:1234
+  roles:
+    - { role: pip, tag: [pip] }

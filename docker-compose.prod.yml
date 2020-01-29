@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  api:
+    build: ./planning-api
+    environment:
+      POSTGRES_DB: ssdp
+      POSTGRES_USER: ssdpuser
+      POSTGRES_PASSWORD: ssdpwd
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ssdp
+      DATABASE_USERNAME: ssdpuser
+      DATABASE_PASSWORD: ssdpwd
+    ports:
+      - 1234:1234
+    
+  front:
+    build: ./
+    ports:
+      - "3000:3000"
+    depends_on:
+      - back
+    volumes:
+      - ./front-office:/app 
+    networks:
+      - front
+
+networks:
+  database:
+  front:

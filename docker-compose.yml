@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DB: ssdp
+      POSTGRES_USER: ssdpuser
+      POSTGRES_PASSWORD: ssdpwd
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - database
+
+  back:
+    image: "node"
+    working_dir: /app
+    command: bash -c "yarn && yarn start"
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - "1234:1234"
+    volumes:
+      - ./planning-api:/app
+    environment:
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ssdp
+      DATABASE_USERNAME: ssdpuser
+      DATABASE_PASSWORD: ssdpwd
+    networks:
+      - database
+      - front
+    
+  front-office:
+    image: "node"
+    working_dir: /app
+    command: bash -c "yarn && yarn start"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - back
+    volumes:
+      - ./front-office:/app 
+    networks:
+      - front
+
+networks:
+  database:
+  front:
