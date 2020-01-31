@@ -1,37 +1,60 @@
 version: "3.7"
 
 services:
-  database:
+  db:
+    env_file: 
+      - .env
     image: postgres
+    ports:
+      - '${DB_RUNNING_PORT}:5432'
+    restart: always
     environment:
-      POSTGRES_DB: ssdp
-      POSTGRES_USER: ssdpuser
-      POSTGRES_PASSWORD: ssdpwd
-    volumes:
-      - ./db:/var/lib/postgresql/data
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_USER: $DB_USER_NAME
+      POSTGRES_DB: $DB_NAME
     networks:
-      - database
+        - database
+    volumes:
+      - ./postgredata:/var/lib/postgresql/data
 
   back:
+    env_file: 
+      - .env
     image: "node"
     working_dir: /app
-    command: bash -c "yarn && yarn start"
+    command: bash -c "yarn && yarn dev"
     restart: always
     depends_on:
-      - database
+      - db
     ports:
-      - "1234:1234"
+      - "1234:${APP_RUNNING_PORT}"
     volumes:
       - ./planning-api:/app
     environment:
+      APP_PORT: $APP_RUNNING_PORT
       DATABASE_HOST: database
       DATABASE_PORT: 5432
       DATABASE_NAME: ssdp
-      DATABASE_USERNAME: ssdpuser
-      DATABASE_PASSWORD: ssdpwd
+      DATABASE_USERNAME: $DB_USER_NAME
+      DATABASE_PASSWORD: $DB_PASSWORD
     networks:
       - database
       - front
+
+  admin:
+    env_file: 
+      - .env
+    image: adminer
+    environment:
+      PGADMIN_DEFAULT_EMAIL: $PGADMIN_EMAIL
+      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PWD
+    depends_on:
+      - db
+    networks:
+      - database
+    ports:
+      - '${PGADMIN_PORT:-5050}:8080'
+    restart: always
     
   front-office:
     image: "node"
