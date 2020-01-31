@@ -1,4 +1,4 @@
-resource "aws_security_group" "default" {
+resource "aws_security_group" "web" {
   vpc_id      = "${aws_default_vpc.default.id}"
   ingress {
     # TLS (change to whatever ports you need)

@@ -1,9 +1,9 @@
 ---
 - hosts: all
-  remote_user: root
+  remote_user: admin
   tasks:
     - name: run ssdpapi
-      docker_compose: 
+      docker_compose:
         project_name: ssdp
         pull: yes
         definition:
@@ -27,4 +27,5 @@
                 - 1234:1234
               restart: always
   roles:
-    - { role: pip, tag: [pip] }
+    - { role: pip, tag: [pip], become: yes }
+    - { role: docker, tag: [docker] }
