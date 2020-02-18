@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   db:
-    env_file: 
+    env_file:
       - .env
     image: postgres
     restart: always
@@ -13,12 +13,12 @@ services:
       POSTGRES_USER: $DB_USERNAME
       POSTGRES_DB: $DB_NAME
     networks:
-        - database
+      - database
     volumes:
       - ./db:/var/lib/postgresql/data
 
   serveur:
-    env_file: 
+    env_file:
       - .env
     image: "node"
     working_dir: /app
@@ -41,7 +41,7 @@ services:
       - front
 
   admin:
-    env_file: 
+    env_file:
       - .env
     image: adminer
     restart: always
@@ -51,7 +51,7 @@ services:
       - database
     ports:
       - "${ADMINER_PORT:-5050}:8080"
-    
+
   client:
     image: "node"
     working_dir: /app
@@ -64,7 +64,7 @@ services:
     depends_on:
       - serveur
     volumes:
-      - ./client:/app 
+      - ./client:/app
     networks:
       - front
 
