@@ -10,6 +10,10 @@ This repo is the devops and the entrypoint for the SSDP project.
 - Dupliquer le fichier `.env.example` et le renommer en `.env` et remplir les variables d'environnements du fichier.
 - Lancer le script `./install.sh`
 
+### Informations complémentaires
+
+[Cliquez-ici pour accéder au Notion du projet](https://www.notion.so/Groupe-10-657ad39759404d0ea9f6217de1690b5e)
+
 ### Lancer une instance
 
 La plateforme utilisée pour lancer une instance est celle d'Amazon AWS.  
