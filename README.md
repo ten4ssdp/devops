@@ -4,7 +4,16 @@
 
 This repo is the devops and the entrypoint for the SSDP project.
 
-### Guide d'installation du projet
+#### Ressources
+* [Front](http://15.188.3.249/)   
+  * Identifiants de connexions:
+    * username: eric.salarie-1@ssdp.net
+    * password: 1234
+
+* [API](http://15.188.3.249:5000/api)   
+* [API documentation](http://15.188.3.249:5000/documentation)
+
+### Guide d'installation de l'environnement de développement 
 
 - Cloner le repo `git clone git@github.com:ten4ssdp/devops.git ssdp`
 - Dupliquer le fichier `.env.example` et le renommer en `.env` et remplir les variables d'environnements du fichier.
@@ -75,7 +84,7 @@ site_db_password
 site_jwtsecret
 site_api_base_url       # IP de l'instance lancée 
 ```
- 
+
 
 Puis lancer la commande 
 ```bash
