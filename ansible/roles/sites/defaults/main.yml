@@ -9,7 +9,6 @@ site_jwtsecret: azerty
 site_front_port: "80"
 
 #database
-site_db_host: "db"
 site_db_port: "5432"
 site_db_name: "ssdp"
 site_db_username: "ssdpuser"
