@@ -9,8 +9,8 @@ resource "aws_security_group" "web" {
     cidr_blocks     = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = 5000
+    to_port     = 5050
     protocol    = "tcp"
     
     cidr_blocks     = ["0.0.0.0/0"]
