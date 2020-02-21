@@ -1,10 +1,12 @@
 site_project_name: "Project name"
 
 # api
+site_api_base_url: "http://localhost"
 site_api_port: "1234"
+site_jwtsecret: azerty
 
 # front
-site_front_port: "3000"
+site_front_port: "80"
 
 #database
 site_db_host: "db"

@@ -1,5 +1,6 @@
 site_project_name: "SSDP"
 site_api_port: "5000"
+site_front_port: "80"
 site_db_port: "5432"
 site_db_name: ssdp
 site_db_username: ssdp

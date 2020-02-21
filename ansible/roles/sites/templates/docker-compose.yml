@@ -44,21 +44,17 @@ services:
     ports:
       - 5050:8080
 
-  # client:
-  #   image: "node"
-  #   working_dir: /app
-  #   command: bash -c "npm i && npm start"
-  #   restart: always
-  #   ports:
-  #     - "${FRONT_PORT:-3000}:3000"
-  #   environment:
-  #     REACT_APP_API_URL: http://localhost:$API_PORT/api
-  #   depends_on:
-  #     - serveur
-  #   volumes:
-  #     - ./client:/app
-  #   networks:
-  #     - front
+  client:
+    image: registry.kevinmanssat.fr/ssdp
+    restart: always
+    ports:
+      - "{{ site_front_port }}:80"
+    environment:
+      REACT_APP_API_URL: "{{ site_api_base_url }}:{{ site_api_port }}/api"
+    depends_on:
+      - api
+    networks:
+      - front
 
 networks:
   database:
