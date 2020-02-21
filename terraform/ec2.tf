@@ -4,7 +4,7 @@ resource "aws_key_pair" "adminkeypair" {
 }
 
 resource "aws_instance" "appserver" {
-  ami = "ami-051ebe9615b416c15"
+  ami = "ami-096b8af6e7e8fb927"
   instance_type = "t2.micro"
   key_name = "adminkeypair"
   vpc_security_group_ids = ["${aws_security_group.web.id}"]
