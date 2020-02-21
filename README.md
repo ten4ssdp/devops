@@ -4,7 +4,7 @@
 
 This repo is the devops and the entrypoint for the SSDP project.
 
-### Guide d'installation
+### Guide d'installation du projet
 
 - Cloner le repo `git clone git@github.com:ten4ssdp/devops.git ssdp`
 - Dupliquer le fichier `.env.example` et le renommer en `.env` et remplir les variables d'environnements du fichier.
@@ -13,6 +13,11 @@ This repo is the devops and the entrypoint for the SSDP project.
 ### Informations complémentaires
 
 [Cliquez-ici pour accéder au Notion du projet](https://www.notion.so/Groupe-10-657ad39759404d0ea9f6217de1690b5e)
+
+### Collaborateurs sur la partie DevOps
+
+* [Kevin MANSSAT](https://github.com/Rayzors)
+* [Paartheepan RAVEENTHIRAN](https://github.com/punkte)
 
 ### Lancer une instance
 
@@ -58,4 +63,21 @@ Ajouter l'IP dans le groupe [web] d'ansible dans le fichier [hosts](./ansible/in
 
 ### Lancer le playbook ansible sur l'instance créée
 
-...
+Définir les variables suivantes dans les [group_vars](./ansible/inventory/group_vars/all)
+```
+site_project_name
+site_api_port
+site_front_port
+site_db_port
+site_db_name
+site_db_username
+site_db_password
+site_jwtsecret
+site_api_base_url       # IP de l'instance lancée 
+```
+ 
+
+Puis lancer la commande 
+```bash
+$ ansible-playbook -i ./inventory/hosts deploy.yml
+```
