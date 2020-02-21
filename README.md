@@ -79,5 +79,13 @@ site_api_base_url       # IP de l'instance lancée
 
 Puis lancer la commande 
 ```bash
-$ ansible-playbook -i ./inventory/hosts deploy.yml
+$ ansible-playbook -i ./inventory/hosts deploy.yml --ask-vault-pass
 ```
+
+### Roles
+
+* Docker => Installe docker sur le server
+* Pip => Installe python sur le server
+* Sites => Installe les modules python docker , docker-compose sur le server puis lance les containers
+
+
