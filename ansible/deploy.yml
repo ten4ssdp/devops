@@ -4,6 +4,6 @@
   remote_user: ubuntu
 
   roles:
-    - { role: pip, tag: [pip], become: yes }
-    - { role: docker, tag: [docker], become: yes }
-    - { role: sites, tag: [sites] }
+    - { role: pip, tags: [pip], become: yes }
+    - { role: docker, tags: [docker], become: yes }
+    - { role: sites, tags: [sites] }
