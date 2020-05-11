@@ -20,7 +20,7 @@ services:
   serveur:
     env_file:
       - .env
-    image: "node"
+    image: "node:12.16.3"
     working_dir: /app
     command: bash -c "yarn && yarn dev"
     restart: always
@@ -54,7 +54,7 @@ services:
       - "${ADMINER_PORT:-5050}:8080"
 
   client:
-    image: "node"
+    image: "node:12.16.3"
     working_dir: /app
     command: bash -c "npm i && npm start"
     restart: always
