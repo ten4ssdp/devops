@@ -1,5 +1,7 @@
 resource "aws_security_group" "web" {
-  vpc_id      = "${aws_default_vpc.default.id}"
+  name        = "${var.stage}-application"
+  description = "Allow inbound traffic"
+
   ingress {
     # TLS (change to whatever ports you need)
     from_port   = 22
