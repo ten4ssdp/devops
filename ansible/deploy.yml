@@ -12,22 +12,11 @@
 
   roles:
     - { role: pip, tags: [pip] }
-    - { role: docker, tags: [docker], become: yes }
-
-  tasks:
-    - name: Build app, image and push it
-      block:
-        - name: Build Image
-          command: docker build --build-arg API_URL=http://{{inventory_hostname}}:5000/api -t ssdp ../client
-        - name: Tag Image
-          command: docker tag ssdp registry.kevinmanssat.fr/ssdp
-        - name: Push Image
-          command: docker push registry.kevinmanssat.fr/ssdp
-      delegate_to: 127.0.0.1
-      become: no
+    - { role: docker, tags: [docker]}
+    - { role: common, tags: [common]}
 
 - hosts: tag_component_application:&tag_stage_production
   remote_user: ubuntu
 
   roles:
-    - { role: sites, tags: [sites] }
+    - { role: application, tags: [application] }

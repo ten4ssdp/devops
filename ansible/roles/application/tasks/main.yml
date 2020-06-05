@@ -1,0 +1,6 @@
+---
+- name: Build
+  import_tasks: build.yml
+- name: Run
+  import_tasks: run.yml
+

@@ -1,10 +1,4 @@
 ---
-- name: Install pip package
-  pip:
-    name:
-      - docker
-      - docker-compose
-
 - name: Create Application directory
   file:
     path: /opt/app
@@ -23,3 +17,4 @@
     project_src: /opt/app
     pull: yes
   become: yes
+  

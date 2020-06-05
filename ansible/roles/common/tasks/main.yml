@@ -1,0 +1,6 @@
+---
+  - name: Install pip package
+    pip:
+      name:
+        - docker
+        - docker-compose

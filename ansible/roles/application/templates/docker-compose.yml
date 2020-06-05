@@ -51,8 +51,6 @@ services:
     restart: always
     ports:
       - "{{ site_front_port }}:80"
-    environment:
-      REACT_APP_API_URL: "{{ site_api_base_url }}:{{ site_api_port }}/api"
     depends_on:
       - api
     networks:
