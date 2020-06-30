@@ -14,30 +14,29 @@
   become: no
 
 - block:
-    - name: Clone front if client directory does not exist
-      command: git clone https://github.com/ten4ssdp/front-office.git ../client
-      delegate_to: 127.0.0.1
-      when: client_dir.stat.exists == false and client_dir.stat.isdir
+    - block:
+        - name: Clone front if client directory does not exist
+          command: git clone https://github.com/ten4ssdp/front-office.git ../client
+          when: client_dir.stat.exists == false
 
-    - name: Clone back if serveur directory does not exist
-      command: git clone https://github.com/ten4ssdp/planning-api.git ../serveur
-      delegate_to: 127.0.0.1
-      when: client_dir.stat.exists == false and client_dir.stat.isdir
+        - block:
+            - name: Build front image
+              command: docker build --build-arg API_URL=http://{{groups['ec2'][0]}}:{{site_api_port}} -t registry.kevinmanssat.fr/ssdp ../client
+            - name: Push front image on registry
+              command: docker push registry.kevinmanssat.fr/ssdp
+      when: app == 'front' or app == 'all'
 
     - block:
-        - name: Build front image
-          command: docker build --build-arg API_URL=http://{{groups['ec2'][0]}}:{{site_api_port}} -t registry.kevinmanssat.fr/ssdp ../client
-        - name: Push front image on registry
-          command: docker push registry.kevinmanssat.fr/ssdp
-      delegate_to: 127.0.0.1
-      become: no
-      when: client_dir.stat.exists and client_dir.stat.isdir
+        - name: Clone back if serveur directory does not exist
+          command: git clone https://github.com/ten4ssdp/planning-api.git ../serveur
+          when: client_dir.stat.exists == false
 
-    - block:
-        - name: Build api image
-          command: docker build -t registry.kevinmanssat.fr/ssdpapi ../serveur
-        - name: Push api image on registry
-          command: docker push registry.kevinmanssat.fr/ssdpapi
-      delegate_to: 127.0.0.1
-      become: no
-      when: serveur_dir.stat.exists and serveur_dir.stat.isdir
+        - block:
+            - name: Build api image
+              command: docker build -t registry.kevinmanssat.fr/ssdpapi ../serveur
+            - name: Push api image on registry
+              command: docker push registry.kevinmanssat.fr/ssdpapi
+      when: app == 'back' or app == 'all'
+  delegate_to: 127.0.0.1
+  become: no
+  when: app is defined
