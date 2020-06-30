@@ -1,14 +1,8 @@
 ---
-- name: Install pip package
-  pip:
-    name:
-      - docker
-      - docker-compose
-
 - name: Create Application directory
   file:
     path: /opt/app
-    state: directory 
+    state: directory
   become: yes
 
 - name: Copy docker-compose configuration file
@@ -19,7 +13,8 @@
 
 - name: Run services
   docker_compose:
-    project_name: "{{ site_project_name }}"
+    project_name: '{{ site_project_name }}'
     project_src: /opt/app
     pull: yes
   become: yes
+  

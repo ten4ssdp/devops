@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+  api:
+    image: registry.kevinmanssat.fr/ssdpapi
+    environment:
+      PORT: '{{ site_api_port }}'
+      DB_HOST: '{{ site_db_host }}'
+      DB_PORT: '{{ site_db_port }}'
+      DB_NAME: '{{ site_db_name }}'
+      DB_USERNAME: '{{ site_db_username }}'
+      DB_PASSWORD: '{{ site_db_password }}'
+      JWTSECRET: '{{ site_jwtsecret }}'
+      GMAIL_ADDRESS: '{{ site_gmail_address }}'
+      GMAIL_PASSWORD: '{{ site_gmail_password }}'
+    expose:
+      - '{{ site_api_port }}'
+    ports:
+      - '{{ site_api_port }}:{{ site_api_port }}'
+    restart: always
+    networks:
+      - database
+      - front
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - api
+    networks:
+      - database
+    ports:
+      - 5050:8080
+
+  client:
+    image: registry.kevinmanssat.fr/ssdp
+    restart: always
+    ports:
+      - '{{ site_front_port }}:80'
+    depends_on:
+      - api
+    networks:
+      - front
+
+networks:
+  database:
+  front:

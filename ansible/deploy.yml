@@ -1,9 +1,22 @@
 ---
-  
-- hosts: all
+# - hosts: localhost
+#   connection: local
+#   gather_facts: false
+#   tasks:
+#     - debug:
+#         var: inventory_hostname
+
+- hosts: [tag_stage_production]
+  become: yes
   remote_user: ubuntu
 
   roles:
-    - { role: pip, tags: [pip], become: yes }
-    - { role: docker, tags: [docker], become: yes }
-    - { role: sites, tags: [sites] }
+    - { role: pip, tags: [pip] }
+    - { role: docker, tags: [docker]}
+    - { role: common, tags: [common]}
+
+- hosts: tag_component_application:&tag_stage_production
+  remote_user: ubuntu
+
+  roles:
+    - { role: application, tags: [application] }
