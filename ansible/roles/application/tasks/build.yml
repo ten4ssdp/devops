@@ -26,9 +26,7 @@
 
     - block:
         - name: Build front image
-          command: docker build --build-arg API_URL=http://{{inventory_hostname}}:{{site_api_port}} -t ssdp ../client
-        - name: Tag front image
-          command: docker tag ssdp registry.kevinmanssat.fr/ssdp
+          command: docker build --build-arg API_URL=http://{{inventory_hostname}}:{{site_api_port}} -t registry.kevinmanssat.fr/ssdp ../client
         - name: Push front image on registry
           command: docker push registry.kevinmanssat.fr/ssdp
       delegate_to: 127.0.0.1
@@ -37,9 +35,7 @@
 
     - block:
         - name: Build api image
-          command: docker build -t ssdpapi ../serveur
-        - name: Tag api image
-          command: docker tag ssdpapi registry.kevinmanssat.fr/ssdpapi
+          command: docker build -t registry.kevinmanssat.fr/ssdpapi ../serveur
         - name: Push api image on registry
           command: docker push registry.kevinmanssat.fr/ssdpapi
       delegate_to: 127.0.0.1
