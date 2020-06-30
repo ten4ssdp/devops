@@ -56,8 +56,9 @@ services:
   client:
     image: "node:12.16.3"
     working_dir: /app
-    command: bash -c "npm i && npm start"
+    command: bash -c "yarn && yarn start"
     restart: always
+    stdin_open: true
     ports:
       - "${FRONT_PORT:-3000}:3000"
     environment:

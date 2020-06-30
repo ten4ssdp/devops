@@ -83,6 +83,8 @@ site_db_username
 site_db_password
 site_jwtsecret
 site_api_base_url       # IP de l'instance lancée 
+site_gmail_address      # Adresse Gmail
+site_gmail_password     # mot de passe Gmail
 ```
 
 
