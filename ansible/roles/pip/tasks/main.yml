@@ -1,5 +1,5 @@
 ---
-- name: install python2
+- name: install python3
   raw: apt update && apt-get -y install python3
 
 - name: Gather facts

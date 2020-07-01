@@ -35,6 +35,8 @@ services:
   client:
     image: registry.kevinmanssat.fr/ssdp
     restart: always
+    environment:
+      API_URL: http://{{inventory_hostname}}:{{site_api_port}}
     ports:
       - '{{ site_front_port }}:80'
     depends_on:

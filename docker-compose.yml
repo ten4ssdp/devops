@@ -32,11 +32,14 @@ services:
       - ./serveur:/app
     environment:
       PORT: $API_PORT
+      DB_HOST: ${DB_HOST:-db}
       DB_PORT: $DB_PORT
       DB_NAME: $DB_NAME
       DB_USERNAME: $DB_USERNAME
       DB_PASSWORD: $DB_PASSWORD
       JWTSECRET: $JWTSECRET
+      GMAIL_ADDRESS: $GMAIL_ADDRESS
+      GMAIL_PASSWORD: $GMAIL_PASSWORD
     networks:
       - database
       - front
