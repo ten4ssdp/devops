@@ -2,7 +2,7 @@ version: '2'
 
 services:
   api:
-    image: registry.kevinmanssat.fr/ssdpapi
+    image: registry.kevinmanssat.fr/ssdpapi:{{ git_server_result.stdout }}
     environment:
       PORT: '{{ site_api_port }}'
       DB_HOST: '{{ site_db_host }}'
@@ -33,7 +33,7 @@ services:
       - 5050:8080
 
   client:
-    image: registry.kevinmanssat.fr/ssdp
+    image: registry.kevinmanssat.fr/ssdp:{{ git_front_result.stdout }}
     restart: always
     environment:
       API_URL: http://{{inventory_hostname}}:{{site_api_port}}

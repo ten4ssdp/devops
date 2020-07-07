@@ -11,8 +11,14 @@
           command: git clone https://github.com/ten4ssdp/front-office.git ../client
           when: client_dir.stat.exists == False
 
+        - name: Get front sha-1
+          command: git rev-parse HEAD
+          args:
+            chdir: ../client
+          register: git_front_result
+
         - name: Build front image
-          command: docker build -t registry.kevinmanssat.fr/ssdp ../client
+          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ git_front_result.stdout }} ../client
         - name: Push front image on registry
           command: docker push registry.kevinmanssat.fr/ssdp
       run_once: True
@@ -22,14 +28,20 @@
         - name: Check if serveur directory exists
           stat:
             path: ../serveur
-          register: serveur_dir
+          register: server_dir
 
         - name: Clone back if serveur directory does not exist
           command: git clone https://github.com/ten4ssdp/planning-api.git ../serveur
-          when: serveur_dir.stat.exists == False
+          when: server_dir.stat.exists == False
+
+        - name: Get back sha-1
+          command: git rev-parse HEAD
+          args:
+            chdir: ../serveur
+          register: git_server_result
 
         - name: Build api image
-          command: docker build -t registry.kevinmanssat.fr/ssdpapi ../serveur
+          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ git_server_result.stdout }} ../serveur
         - name: Push api image on registry
           command: docker push registry.kevinmanssat.fr/ssdpapi
       run_once: True
