@@ -6,4 +6,6 @@ module "production" {
   instance_count    = 2
   instance_key_name = "${aws_key_pair.adminkeypair.key_name}"
   stage             = "production"
+  dbusername        = "${var.dbusername}"
+  dbpassword        = "${var.dbpassword}"
 }

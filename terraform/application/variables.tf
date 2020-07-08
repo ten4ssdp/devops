@@ -26,3 +26,15 @@ variable "stage" {
   default     = "production"
   description = "Stage in which application is deployed"
 }
+
+variable "dbusername" {
+  type        = string
+  default     = "root"
+  description = "Database username"
+}
+
+variable "dbpassword" {
+  type        = string
+  default     = "dumbpwdlolmdrlol"
+  description = "Database password"
+}

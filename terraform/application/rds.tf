@@ -6,8 +6,8 @@ resource "aws_db_instance" "default" {
   engine_version         = "11.2"
   instance_class         = "db.t2.micro"
   name                   = "ten4ssdp"
-  username               = "root"
-  password               = "dumbpwdlolmdrlol"
+  username               = var.dbusername
+  password               = var.dbpassword
   publicly_accessible    = true
   vpc_security_group_ids = ["${aws_security_group.rdsSG.id}"]
 }
