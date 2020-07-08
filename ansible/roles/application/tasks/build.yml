@@ -1,4 +1,13 @@
 ---
+- name: Set extra vars default value
+  set_fact:
+    app: "{{ app | default('all') }}"
+    executed_by_runner: "{{ (executed_by_runner | default(false) | bool ) }}"
+
+- name: Set projects URLs
+  set_fact:
+    client_dir_path: "{{ (executed_by_runner == False) | ternary('../client','../../') }}"
+    server_dir_path: "{{ (executed_by_runner == False) | ternary('../serveur','../../') }}"
 
 - name: Get latest release of a front repository
   github_release:
@@ -22,13 +31,16 @@
           stat:
             path: ../client
           register: client_dir
+          when: executed_by_runner == False
 
         - name: Clone front if client directory does not exist
           command: git clone https://github.com/ten4ssdp/front-office.git ../client
-          when: client_dir.stat.exists == False
+          when: executed_by_runner == False and client_dir.stat.exists == False
 
         - name: Build front image
-          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ front_release.tag }} ../client
+          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ front_release.tag }} .
+          args:
+            chdir: "{{ client_dir_path }}"
 
         - name: Push front image on registry
           command: docker push registry.kevinmanssat.fr/ssdp
@@ -40,13 +52,16 @@
           stat:
             path: ../serveur
           register: server_dir
+          when: executed_by_runner == False
 
         - name: Clone back if serveur directory does not exist
           command: git clone https://github.com/ten4ssdp/planning-api.git ../serveur
-          when: server_dir.stat.exists == False
+          when: executed_by_runner == False and server_dir.stat.exists == False
 
         - name: Build api image
-          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ server_release.tag }} ../serveur
+          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ server_release.tag }} .
+          args:
+            chdir: "{{ server_dir_path }}"
 
         - name: Push api image on registry
           command: docker push registry.kevinmanssat.fr/ssdpapi
