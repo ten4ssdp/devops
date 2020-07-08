@@ -11,14 +11,15 @@
           command: git clone https://github.com/ten4ssdp/front-office.git ../client
           when: client_dir.stat.exists == False
 
-        - name: Get front sha-1
-          command: git rev-parse HEAD
+        - name: Get front release tag
+          command: git describe --abbrev=0 --tags --exact-match
           args:
             chdir: ../client
-          register: git_front_result
+          register: front_release_tag
 
         - name: Build front image
-          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ git_front_result.stdout }} ../client
+          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ front_release_tag.stdout }} ../client
+
         - name: Push front image on registry
           command: docker push registry.kevinmanssat.fr/ssdp
       run_once: True
@@ -34,14 +35,15 @@
           command: git clone https://github.com/ten4ssdp/planning-api.git ../serveur
           when: server_dir.stat.exists == False
 
-        - name: Get back sha-1
-          command: git rev-parse HEAD
+        - name: Get server release tag
+          command: git describe --abbrev=0 --tags --exact-match
           args:
             chdir: ../serveur
-          register: git_server_result
+          register: server_release_tag
 
         - name: Build api image
-          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ git_server_result.stdout }} ../serveur
+          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ server_release_tag.stdout }} ../serveur
+
         - name: Push api image on registry
           command: docker push registry.kevinmanssat.fr/ssdpapi
       run_once: True

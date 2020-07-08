@@ -1,5 +1,5 @@
 ---
-  - name: Install pip package
+  - name: Install pip packages
     pip:
       name:
         - docker
