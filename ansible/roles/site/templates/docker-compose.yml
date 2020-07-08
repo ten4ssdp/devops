@@ -2,7 +2,7 @@ version: '2'
 
 services:
   api:
-    image: registry.kevinmanssat.fr/ssdpapi:{{ server_release.tag }}
+    image: {{ site_docker_registry }}/{{ site_api_image_name }}:{{ site_api_image_version }} 
     environment:
       PORT: '{{ site_api_port }}'
       DB_HOST: '{{ site_db_host }}'
@@ -13,10 +13,8 @@ services:
       JWTSECRET: '{{ site_jwtsecret }}'
       GMAIL_ADDRESS: '{{ site_gmail_address }}'
       GMAIL_PASSWORD: '{{ site_gmail_password }}'
-    expose:
-      - '{{ site_api_port }}'
     ports:
-      - '{{ site_api_port }}:{{ site_api_port }}'
+      - '{{ site_api_port }}:5000'
     restart: always
     networks:
       - database
@@ -33,10 +31,10 @@ services:
       - 5050:8080
 
   client:
-    image: registry.kevinmanssat.fr/ssdp:{{ front_release.tag }}
+    image: {{ site_docker_registry }}/{{ site_front_image_name}}:{{ site_front_image_version }} 
     restart: always
     environment:
-      API_URL: http://{{inventory_hostname}}:{{site_api_port}}
+      API_URL: {{ site_api_base_url }}:{{site_api_port}}
     ports:
       - '{{ site_front_port }}:80'
     depends_on:

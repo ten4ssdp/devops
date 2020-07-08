@@ -8,15 +8,11 @@
 
 - hosts: [tag_stage_production]
   become: yes
-  remote_user: ubuntu
-
   roles:
     - { role: pip, tags: [pip] }
     - { role: docker, tags: [docker]}
     - { role: common, tags: [common]}
 
 - hosts: tag_component_application:&tag_stage_production
-  remote_user: ubuntu
-
   roles:
-    - { role: application, tags: [application] }
+    - { role: site, tags: [site] }

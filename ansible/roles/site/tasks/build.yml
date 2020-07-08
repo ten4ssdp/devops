@@ -38,12 +38,12 @@
           when: executed_by_runner == False and client_dir.stat.exists == False
 
         - name: Build front image
-          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ front_release.tag }} .
+          command: docker build -t {{ site_docker_registry }}/{{ site_front_image_name }}:{{ front_release.tag }} .
           args:
             chdir: "{{ client_dir_path }}"
 
         - name: Push front image on registry
-          command: docker push registry.kevinmanssat.fr/ssdp
+          command: docker push {{ site_docker_registry }}/{{ site_front_image_name }}
       run_once: True
       when: app == 'front' or app == 'all'
 
@@ -59,12 +59,12 @@
           when: executed_by_runner == False and server_dir.stat.exists == False
 
         - name: Build api image
-          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ server_release.tag }} .
+          command: docker build -t {{ site_docker_registry }}/{{ site_api_image_name }}:{{ server_release.tag }} .
           args:
             chdir: "{{ server_dir_path }}"
 
         - name: Push api image on registry
-          command: docker push registry.kevinmanssat.fr/ssdpapi
+          command: docker push {{ site_docker_registry }}/{{ site_api_image_name }}
       run_once: True
       when: app == 'back' or app == 'all'
   delegate_to: 127.0.0.1

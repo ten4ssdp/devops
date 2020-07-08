@@ -1,11 +1,16 @@
 site_project_name: 'Project name'
+site_docker_registry: registry.kevinmanssat.fr
 
 # api
-site_api_base_url: 'http://localhost'
+site_api_image_name: ssdpapi
+site_api_image_version: "{{ server_release.tag }}"
+site_api_base_url: "http://{{inventory_hostname}}"
 site_api_port: '1234'
 site_jwtsecret: azerty
 
 # front
+site_front_image_name: ssdp
+site_front_image_version: "{{ front_release.tag }}"
 site_front_port: '80'
 
 #database
