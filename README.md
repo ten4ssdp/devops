@@ -51,17 +51,24 @@ $ export AWS_SECRET_ACCESS_KEY="la clé d'accès"
 
 #### Initialiser Terraform
 
+Copier le contenu du fichier [sensitive.tfvars.example](./terraform/sensitive.tfvars.example) dans un fichier nommé `sensitive.tfvars` placé au même endroit.  
+Les variables à définir sont les suivantes :  
+```
+dbusername        # identifiant de la base de donnée 
+dbpassword        # mot de passe de la base de donnée
+```
+
 ```bash
 $ terraform init
 ```
 #### Vérifier les actions qui vont être effectuées
 
 ```bash
-$ terraform plan
+$ terraform plan -var-file="sensitive.tfvars"
 ```
 #### Lancer les instances
 ```bash
-$ terraform apply
+$ terraform apply -var-file="sensitive.tfvars"
 ```
 
 Par défaut l'instance est créée dans la zone `eu-west-3` (Paris)
@@ -75,8 +82,8 @@ site_api_port           # port de l'api
 site_front_port         # port du front
 site_db_port            # port de la base de données
 site_db_name            # nom de la base de données
-site_db_username        # identifiant de la base de donnée
-site_db_password        # mot de passe de la base de donnée
+site_db_username        # identifiant de la base de donnée (le même que celui qui a été défini dans la partie terraform au lancement de la bdd)
+site_db_password        # mot de passe de la base de donnée (le même que celui qui a été défini dans la partie terraform au lancement de la bdd)
 site_jwtsecret          # mot de passe jwt
 site_api_base_url       # IP de l'instance lancée 
 site_gmail_address      # Adresse Gmail
