@@ -1,5 +1,21 @@
 ---
 
+- name: Get latest release of a front repository
+  github_release:
+    user: ten4ssdp
+    repo: front-office
+    action: latest_release
+  register: front_release
+  run_once: True
+
+- name: Get latest release of a server repository
+  github_release:
+    user: ten4ssdp
+    repo: planning-api
+    action: latest_release
+  register: server_release
+  run_once: True
+
 - block:
     - block:
         - name: Check if client directory exists
@@ -11,14 +27,8 @@
           command: git clone https://github.com/ten4ssdp/front-office.git ../client
           when: client_dir.stat.exists == False
 
-        - name: Get front release tag
-          command: git describe --abbrev=0 --tags --exact-match
-          args:
-            chdir: ../client
-          register: front_release_tag
-
         - name: Build front image
-          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ front_release_tag.stdout }} ../client
+          command: docker build -t registry.kevinmanssat.fr/ssdp:{{ front_release.tag }} ../client
 
         - name: Push front image on registry
           command: docker push registry.kevinmanssat.fr/ssdp
@@ -35,14 +45,8 @@
           command: git clone https://github.com/ten4ssdp/planning-api.git ../serveur
           when: server_dir.stat.exists == False
 
-        - name: Get server release tag
-          command: git describe --abbrev=0 --tags --exact-match
-          args:
-            chdir: ../serveur
-          register: server_release_tag
-
         - name: Build api image
-          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ server_release_tag.stdout }} ../serveur
+          command: docker build -t registry.kevinmanssat.fr/ssdpapi:{{ server_release.tag }} ../serveur
 
         - name: Push api image on registry
           command: docker push registry.kevinmanssat.fr/ssdpapi

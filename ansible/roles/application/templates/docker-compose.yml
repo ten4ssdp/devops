@@ -2,7 +2,7 @@ version: '2'
 
 services:
   api:
-    image: registry.kevinmanssat.fr/ssdpapi:{{ server_release_tag.stdout }}
+    image: registry.kevinmanssat.fr/ssdpapi:{{ server_release.tag }}
     environment:
       PORT: '{{ site_api_port }}'
       DB_HOST: '{{ site_db_host }}'
@@ -33,7 +33,7 @@ services:
       - 5050:8080
 
   client:
-    image: registry.kevinmanssat.fr/ssdp:{{ front_release_tag.stdout }}
+    image: registry.kevinmanssat.fr/ssdp:{{ front_release.tag }}
     restart: always
     environment:
       API_URL: http://{{inventory_hostname}}:{{site_api_port}}

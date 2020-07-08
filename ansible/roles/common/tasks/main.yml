@@ -4,3 +4,4 @@
       name:
         - docker
         - docker-compose
+        - github3.py
