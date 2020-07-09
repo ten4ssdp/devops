@@ -13,6 +13,8 @@ services:
       JWTSECRET: '{{ site_jwtsecret }}'
       GMAIL_ADDRESS: '{{ site_gmail_address }}'
       GMAIL_PASSWORD: '{{ site_gmail_password }}'
+      REDIS_URL: '{{ site_api_redis_host }}'
+      REDIS_PORT: '{{ site_api_redis_port }}'
     ports:
       - '{{ site_api_port }}:5000'
     restart: always

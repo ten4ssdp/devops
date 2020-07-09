@@ -38,3 +38,20 @@ variable "dbpassword" {
   default     = "dumbpwdlolmdrlol"
   description = "Database password"
 }
+
+variable "db_allocated_storage" {
+  type        = number
+  default     = 100
+  description = "db allocated storage"
+}
+
+variable "db_instance_class" {
+  type        = string
+  default     = "db.t2.micro"
+  description = "db instance class"
+}
+variable "db_name" {
+  type        = string
+  default     = "ten4ssdp"
+  description = "db name"
+}
