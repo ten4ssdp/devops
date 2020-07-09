@@ -36,7 +36,8 @@ Pour lancer une instance avec Terraform il faut :
 * Avoir un compte AWS
 * Ajouter un groupe dans l'onglet Gestion des identités et des accès (IAM)
   * IAM > Groupe > Créer un groupe
-  * Définir la stratégie attachée à AmazonEC2FullAccess
+  * Définir la stratégie attachée AmazonEC2FullAccess
+  * Définir la statégie attachée AmazonElastiCacheFullAccess
 * Ajouter un utilisateur au groupe crée
   * IAM > Users > Créer un utilisateur
   * Puis l'assigner au groupe crée

@@ -1,11 +1,11 @@
 # Create RDS
 resource "aws_db_instance" "default" {
-  allocated_storage      = 100
+  allocated_storage      = var.db_allocated_storage
   storage_type           = "gp2"
   engine                 = "postgres"
   engine_version         = "11.2"
-  instance_class         = "db.t2.micro"
-  name                   = "ten4ssdp"
+  instance_class         = var.db_instance_class
+  name                   = var.db_name
   username               = var.dbusername
   password               = var.dbpassword
   publicly_accessible    = true
