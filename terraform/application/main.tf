@@ -75,4 +75,10 @@ resource "aws_elb" "application_api" {
   }
 }
 
+resource "aws_lb_cookie_stickiness_policy" "sticky_session_policy" {
+  name                     = "sticky_session_policy"
+  load_balancer            = "${aws_elb.application_api.id}"
+  lb_port                  = 80
+  cookie_expiration_period = 600
+}
 
