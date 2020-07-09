@@ -1,4 +1,15 @@
 ---
+- action:
+    module: ec2_elb_info
+    region: "eu-west-2"
+    names:
+      - production-app-api-elb
+  register: elb_info
+  delegate_to: 127.0.0.1
+
+- debug:
+    var: site_api_base_url
+
 - name: Set extra vars default value
   set_fact:
     app: "{{ app | default('all') }}"

@@ -36,7 +36,7 @@ services:
     image: {{ site_docker_registry }}/{{ site_front_image_name}}:{{ site_front_image_version }} 
     restart: always
     environment:
-      API_URL: {{ site_api_base_url }}:{{site_api_port}}
+      API_URL: {{ site_api_base_url }}
     ports:
       - '{{ site_front_port }}:80'
     depends_on:
