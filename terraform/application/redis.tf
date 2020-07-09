@@ -7,6 +7,6 @@ resource "aws_elasticache_cluster" "redis" {
   engine_version       = "5.0.6"
   port                 = 6379
 
-  security_group_ids = ["${aws_security_group.web.id}"]
+  security_group_ids = ["${aws_security_group.redisSG.id}"]
 
 }

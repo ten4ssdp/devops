@@ -55,4 +55,27 @@ resource "aws_security_group" "rdsSG" {
 
 }
 
+resource "aws_security_group" "redisSG" {
+  name        = "redisSG"
+  description = "Redis security group"
+
+  ingress {
+    description     = "rds"
+    from_port       = 6379
+    to_port         = 6379
+    protocol        = "tcp"
+    security_groups = ["${aws_security_group.web.id}"]
+  }
+  egress {
+    description = "rds"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+    self        = true
+  }
+
+}
+
+
 
