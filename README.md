@@ -4,14 +4,16 @@
 
 This repo is the devops and the entrypoint for the SSDP project.
 
+![architecture technique](./archi.png)
+
 #### Ressources
-* [Front](http://3.10.224.110/)   
+* [Front](http://production-app-elb-1614856992.eu-west-2.elb.amazonaws.com/)   
   * Identifiants de connexions:
     * username: eric.salarie-1@ssdp.net
     * password: 1234
 
-* [API](http://3.10.224.110:5000/api)   
-* [API documentation](http://3.10.224.110:5000/documentation)
+* [API](http://production-app-api-elb-804589129.eu-west-2.elb.amazonaws.com/api)   
+* [API documentation](http://production-app-api-elb-804589129.eu-west-2.elb.amazonaws.com/documentation)
 
 ### Guide d'installation de l'environnement de développement 
 
@@ -28,10 +30,10 @@ This repo is the devops and the entrypoint for the SSDP project.
 * [Kevin MANSSAT](https://github.com/Rayzors)
 * [Paartheepan RAVEENTHIRAN](https://github.com/punkte)
 
-### Lancer une instance
+### Déployer l'architecture
 
 La plateforme utilisée pour lancer une instance est celle d'Amazon AWS.  
-Pour lancer une instance avec Terraform il faut :
+Pour l'ensemble des composantes de l'application avec Terraform il faut :
 * Avoir le CLI Terraform d'installé
 * Avoir un compte AWS
 * Ajouter un groupe dans l'onglet Gestion des identités et des accès (IAM)
@@ -72,8 +74,6 @@ $ terraform plan -var-file="sensitive.tfvars"
 $ terraform apply -var-file="sensitive.tfvars"
 ```
 
-Par défaut l'instance est créée dans la zone `eu-west-3` (Paris)
-
 ### Lancer le playbook ansible sur l'instance créée
 
 Définir les variables suivantes dans les [group_vars](./ansible/inventory/group_vars/tag_stage_production/vault.yml)
@@ -86,7 +86,7 @@ site_db_name            # nom de la base de données
 site_db_username        # identifiant de la base de donnée (le même que celui qui a été défini dans la partie terraform au lancement de la bdd)
 site_db_password        # mot de passe de la base de donnée (le même que celui qui a été défini dans la partie terraform au lancement de la bdd)
 site_jwtsecret          # mot de passe jwt
-site_api_base_url       # IP de l'instance lancée 
+site_api_base_url       # IP de l'instance lancée (au format http://hostname.ext)
 site_gmail_address      # Adresse Gmail
 site_gmail_password     # mot de passe Gmail
 ```
@@ -96,10 +96,10 @@ Ansible se charge de récupérer les inventory de manière dynamique grâce au f
 Pour lancer le playbook de déploiement la commande est la suivante :
 
 ```bash
-$ ansible-playbook devops/ansible/deploy.yml -i devops/ansible/inventory/ec2.py --vault-password-file ./keys/.vault_pass.txt --key-file ./keys/.ssh/id_rsa --extra-vars "app=all"
+$ ansible-playbook ./ansible/deploy.yml -i ./ansible/inventory/ec2.py --ask-vault-pass  --key ~/.ssh/hetic_rsa -u ubuntu --extra-vars "app=all"
 ```
 La valeur du dernier paramètre `app` peut prendre les valeurs suivantes :
-  * `all` : pour construire les images du back et du front
+  * `all` : pour construire les images du back et du front (qui est la valeur par défaut)
   * `front` : pour construire les images du [front](https://github.com/ten4ssdp/front-office)
   * `back` : pour construire les images du [back](https://github.com/ten4ssdp/planning-api)
 

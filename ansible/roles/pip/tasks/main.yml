@@ -1,15 +1,13 @@
 ---
-- name: install python3
-  raw: apt update && apt-get -y install python3
-
 - name: Gather facts
   setup:
 
 - name: install packages
   apt:
     pkg:
+      - python3
       - python-setuptools
-      - python-pip
+      - python3-pip
       - docker-compose
     state: present
     update_cache: yes
