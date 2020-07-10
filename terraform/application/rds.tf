@@ -12,6 +12,11 @@ resource "aws_db_instance" "default" {
   vpc_security_group_ids = ["${aws_security_group.rdsSG.id}"]
 }
 
+resource "aws_db_snapshot" "rds_snapshot" {
+  db_instance_identifier = "${aws_db_instance.default.id}"
+  db_snapshot_identifier = "rdssnapshot1234"
+}
+
 # resource "null_resource" "setup_db" {
 #   depends_on = [aws_db_instance.default, aws_security_group.web, aws_security_group.rdsSG]
 #   provisioner "local-exec" {
